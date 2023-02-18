@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D39B10D129A1535A008E8F66 /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39B10D029A1535A008E8F66 /* UIColor+RGB.swift */; };
+		D39B10D329A1539D008E8F66 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39B10D229A1539D008E8F66 /* Palette.swift */; };
 		D3A249E329A0F6F8005A2503 /* MoviesAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A249E229A0F6F8005A2503 /* MoviesAppApp.swift */; };
 		D3A249E529A0F6F8005A2503 /* MoviesFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A249E429A0F6F8005A2503 /* MoviesFeedView.swift */; };
 		D3A249E729A0F6FB005A2503 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A249E629A0F6FB005A2503 /* Assets.xcassets */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D39B10D029A1535A008E8F66 /* UIColor+RGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
+		D39B10D229A1539D008E8F66 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		D3A249DF29A0F6F8005A2503 /* MoviesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3A249E229A0F6F8005A2503 /* MoviesAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesAppApp.swift; sourceTree = "<group>"; };
 		D3A249E429A0F6F8005A2503 /* MoviesFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesFeedView.swift; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 				D3A249F029A0F7DB005A2503 /* Models.swift */,
 				D3A249E629A0F6FB005A2503 /* Assets.xcassets */,
 				D3A249E829A0F6FB005A2503 /* Preview Content */,
+				D39B10D029A1535A008E8F66 /* UIColor+RGB.swift */,
+				D39B10D229A1539D008E8F66 /* Palette.swift */,
 			);
 			path = MoviesApp;
 			sourceTree = "<group>";
@@ -144,7 +150,9 @@
 			files = (
 				D3A249F129A0F7DB005A2503 /* Models.swift in Sources */,
 				D3A249E529A0F6F8005A2503 /* MoviesFeedView.swift in Sources */,
+				D39B10D329A1539D008E8F66 /* Palette.swift in Sources */,
 				D3A249E329A0F6F8005A2503 /* MoviesAppApp.swift in Sources */,
+				D39B10D129A1535A008E8F66 /* UIColor+RGB.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
