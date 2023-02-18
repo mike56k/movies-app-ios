@@ -10,6 +10,7 @@ struct Film: Identifiable {
     let length: Int
     let coverImage: String
     let trailerUrl: String
+    let genre: String
 }
 
 struct Actor {
