@@ -1,4 +1,5 @@
 import SwiftUI
+import AVKit
 
 struct MoviesFeedView: View {
     let films: [Film]
@@ -39,7 +40,11 @@ struct MovieCard: View {
             HStack {
                 VStack(alignment: .leading) {
                     Text(model.name)
-                    Text(model.description)
+                    HStack {
+                        Text(String(model.yearOfRelease))
+                        Spacer()
+                        Text("Рейтинг: \(model.rating)")
+                    }
                 }
                 
                 Spacer()
@@ -63,15 +68,46 @@ struct MovieDetailsView: View {
                         Text(model.name)
                             .fontWeight(.heavy)
                             .font(.title)
+                        
+                        Divider()
+                        
+                        descriptionRow(title: "Год выпуска",
+                                       value: "\(model.yearOfRelease)")
+                        descriptionRow(title: "Оригинальное название",
+                                       value: "\(model.alternativeName)")
+                        descriptionRow(title: "Рейтинг",
+                                       value: "\(model.rating)")
+                        descriptionRow(title: "Длительность",
+                                       value: "\(model.length) минут")
+                        Divider()
+                        
                         Text(model.description)
+//                            .multilineTextAlignment(.leading)
+//                            .lineLimit(nil)
+                        
+                        Divider()
+                        
+                        VStack(alignment: .leading) {
+                            Text("Трейлер")
+                            VideoPlayer(player: AVPlayer(url: URL(string: model.trailerUrl)!))
+                                .frame(height: 250)
+                        }
                     }
-                    
-                    Spacer()
                 }
+                Spacer()
             }
             .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    @ViewBuilder
+    private func descriptionRow(title: String, value: String) -> some View {
+        HStack {
+            Text(title)
+            Divider()
+            Text(value)
+        }
     }
 }
 //
@@ -82,3 +118,16 @@ struct MovieDetailsView: View {
 //    }
 //}
 //
+
+//let videos = [
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.jpg",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+//    "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+//]

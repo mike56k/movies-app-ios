@@ -5,10 +5,11 @@ struct Film: Identifiable {
     let name: String
     let alternativeName: String
     let description: String
-    let year: Int
+    let yearOfRelease: Int
     let rating: Float
     let length: Int
     let coverImage: String
+    let trailerUrl: String
 }
 
 struct Actor {
