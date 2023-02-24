@@ -1,17 +1,17 @@
 import SwiftUI
 
 struct MovieDetailsView: View {
-    let model: Film
+    let model: FilmFeedModel
     
     var body: some View {
         List {
             Section {
-                descriptionRow(title: "Жанр",
-                               value: "\(model.genre)")
+//                descriptionRow(title: "Жанр",
+//                               value: "\(model.genres)")
                 descriptionRow(title: "Год выпуска",
                                value: "\(model.yearOfRelease)")
                 descriptionRow(title: "Ориг. название",
-                               value: "\(model.alternativeName)")
+                               value: "\(model.engName)")
                 descriptionRow(title: "Рейтинг",
                                value: "\(model.rating)")
                 descriptionRow(title: "Длительность",

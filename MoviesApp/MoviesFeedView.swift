@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct MoviesFeedView: View {
-    let films: [Film]
+    let films: [FilmFeedModel]
     
     var body: some View {
         ScrollView {
             LazyVStack {
-                ForEach(films, id: \.id) { film in
+                ForEach(searchResults, id: \.id) { film in
                     NavigationLink {
                         MovieDetailsView(model: film)
                     } label: {
@@ -28,8 +28,17 @@ struct MoviesFeedView: View {
             }
             .buttonStyle(PlainButtonStyle())
         }
+        .searchable(text: $searchText)
     }
     
     @State private var searchText = ""
+    
+    private var searchResults: [FilmFeedModel] {
+        if searchText.isEmpty {
+            return films
+        } else {
+            return films.filter { $0.name.contains(searchText) }
+        }
+    }
     
 }
