@@ -6,8 +6,6 @@ struct MovieDetailsView: View {
     var body: some View {
         List {
             Section {
-//                descriptionRow(title: "Жанр",
-//                               value: "\(model.genres)")
                 descriptionRow(title: "Год выпуска",
                                value: "\(model.yearOfRelease)")
                 descriptionRow(title: "Ориг. название",
@@ -26,20 +24,20 @@ struct MovieDetailsView: View {
                 Text("Описание")
             }
             
-            if let url = URL(string: model.trailerUrl) {
-                NavigationLink {
-                    TrailerPlayer(trailerUrl: url)
-                } label: {
-                    Text("Трейлер")
+            if let trailerUrl = model.trailerUrl {
+                if let url = URL(string: trailerUrl) {
+                    NavigationLink {
+                        TrailerPlayer(trailerUrl: url)
+                    } label: {
+                        Text("Трейлер")
+                    }
                 }
             }
-
         }
         .listStyle(.sidebar)
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    @ViewBuilder
     private func descriptionRow(title: String, value: String) -> some View {
         HStack {
             Text(title)

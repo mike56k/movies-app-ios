@@ -12,8 +12,8 @@ struct FilmFeedModel: Identifiable, Decodable {
     let persons: [Person]
     let genres: [String]
     let countries: [String]
-    let coverImageUrl: String
-    let trailerUrl: String
+    let coverImageUrl: String?
+    let trailerUrl: String?
 }
 
 struct Person: Decodable {

@@ -6,12 +6,20 @@ struct MovieCardView: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            AsyncImage(url: URL(string: model.coverImageUrl)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                ProgressView()
+            Group {
+                if let coverImageUrl = model.coverImageUrl {
+                    AsyncImage(url: URL(string: coverImageUrl)) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                }
+                else {
+                    Rectangle()
+                        .fill(Color.gray)
+                }
             }
             .frame(width: 70, height: 100)
             .cornerRadius(10)
@@ -43,7 +51,7 @@ struct MovieCardView: View {
             Spacer()
         }
         .padding(.vertical, 10)
-        .background(Color.cellBackground)
+        .background(Color.Palette.cellBackground)
         .cornerRadius(20)
     }
     
