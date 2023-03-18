@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MovieCardView: View {
+struct FilmCardView: View {
     let model: FilmFeedModel
     let gradient = Gradient(colors: [.purple, .cyan, .orange])
 

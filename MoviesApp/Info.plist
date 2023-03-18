@@ -7,6 +7,19 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>GIDServerClientID</key>
+	<string>1006300932308-v47i976nval32vprp2586355p4n4fuib.apps.googleusercontent.com</string>
+	<key>GIDClientID</key>
+	<string>1006300932308-rquoiggph7iubdh59agvh3lf8j5m32i0.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1006300932308-rquoiggph7iubdh59agvh3lf8j5m32i0</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
