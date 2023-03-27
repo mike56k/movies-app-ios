@@ -31,7 +31,7 @@ final class NetworkAPI {
                                                               multipartFormData: { (multipartFormData) in
                 multipartFormData.append(trailerUrl, withName: "file", fileName: "video.mp4", mimeType: "video/mp4")
             })
-            // TODO: Process result
+            print(data)
         } catch let error {
             print(error.localizedDescription)
         }

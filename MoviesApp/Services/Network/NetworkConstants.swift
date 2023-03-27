@@ -1,8 +1,8 @@
 enum NetworkConstants {
-    static let ip = "10.56.3.181"
+    static let ip = "95.163.211.116"
 
-    private static let port = "7179"
-    private static let baseUrl = "https://\(ip):\(port)"
+    private static let port = "8155"
+    private static let baseUrl = "http://\(ip):\(port)"
 
     enum Route {
 

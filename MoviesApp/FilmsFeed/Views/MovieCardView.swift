@@ -7,8 +7,8 @@ struct FilmCardView: View {
     var body: some View {
         HStack(spacing: 0) {
             Group {
-                if let coverImageUrl = model.coverImageUrl {
-                    AsyncImage(url: URL(string: coverImageUrl)) { image in
+                if let posterUrl = model.posterUrl {
+                    AsyncImage(url: URL(string: "http://95.163.211.116:8001/" + posterUrl)) { image in
                         image
                             .resizable()
                             .scaledToFill()
@@ -21,7 +21,7 @@ struct FilmCardView: View {
                         .fill(Color.gray)
                 }
             }
-            .frame(width: 70, height: 100)
+            .frame(width: 80, height: 120)
             .cornerRadius(10)
             .clipped()
             .padding(.horizontal, 10)

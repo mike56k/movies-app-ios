@@ -5,9 +5,18 @@ import GoogleSignIn
 struct MoviesApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-//                RootView()
-                FilmsFeedView()
+            TabView {
+                NavigationView {
+                    FilmsFeedView()
+                }
+                .tabItem {
+                    Label("Фильмы", systemImage: "list.dash")
+                }
+                
+                RootView()
+                    .tabItem {
+                        Label("Профиль", systemImage: "person.crop.circle")
+                    }
             }
             .onAppear {
                 GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in

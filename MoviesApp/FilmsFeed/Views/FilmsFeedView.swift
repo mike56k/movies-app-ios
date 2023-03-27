@@ -58,7 +58,7 @@ struct FilmsFeedView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 .sheet(isPresented: $isSettingsPresented) {
-                    SettingsView()
+                    FiltersView()
                 }
             }
             

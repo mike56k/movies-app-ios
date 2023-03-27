@@ -13,13 +13,8 @@ actor NetworkManager: GlobalActor {
     
     private let maxWaitTime = 15.0
     var commonHeaders: HTTPHeaders = [
-        "user_id": "123",
-        "token": "xxx-xx"
+        "Authorization": "PLACE_TOKEN_HERE",
     ]
-    
-//    let headers: HTTPHeaders = [
-//        "Authorization": "Bearer YourAccessToken"
-//    ]
 
     func get(url: String, parameters: Parameters?) async throws -> Data {
         return try await withCheckedThrowingContinuation { continuation in

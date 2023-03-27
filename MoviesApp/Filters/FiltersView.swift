@@ -11,7 +11,7 @@ struct Filter: Identifiable {
     
 }
 
-struct SettingsView: View {
+struct FiltersView: View {
     let filters: [Filter] = [Filter(name: "Тип", options: ["Фильм", "Мультик", "Аниме"]), Filter(name: "Жанр", options: ["Мелодрамма", "Боевик", "Ужасы"])]
     
     var body: some View {
