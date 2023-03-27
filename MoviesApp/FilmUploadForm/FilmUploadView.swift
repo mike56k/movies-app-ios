@@ -5,11 +5,6 @@ import AVKit
 struct FilmUploadView: View {
     
     @StateObject var viewModel = FilmUploadViewModel()
-    @State var name = ""
-    @State var engName = ""
-    @State var description = ""
-    @State var selection: Int = 2023
-    @State var length: String = ""
     
 //    let name: String
 //    let engName: String
@@ -24,20 +19,20 @@ struct FilmUploadView: View {
     var body: some View {
         ScrollView {
             VStack {
-                CustomTextField(input: $name, placeholder: "Название")
-                CustomTextField(input: $engName, placeholder: "Оригинальное название")
-                CustomTextField(input: $description, placeholder: "Описание")
-                CustomTextField(input: $length, placeholder: "Продолжительность в мин.", accepts: .number)
+                CustomTextField(input: $viewModel.name, placeholder: "Название")
+                CustomTextField(input: $viewModel.engName, placeholder: "Оригинальное название")
+                CustomTextField(input: $viewModel.description, placeholder: "Описание")
+                CustomTextField(input: $viewModel.length, placeholder: "Продолжительность в мин.", accepts: .number)
 
                 HStack {
                     Text("Год выпуска")
-                    Picker("", selection: $selection) {
+                    Picker("", selection: $viewModel.yearOfRelease) {
                         ForEach(yearsOptions, id: \.self) {
                             Text(String($0))
                         }
                     }
                 }
-
+                
                 if player != nil {
                     VideoPlayer(player: player!)
                         .frame(height: 300)
@@ -53,7 +48,7 @@ struct FilmUploadView: View {
                 
                 uploadTrailerButton
                     .sheet(isPresented: $showVideoPicker) {
-                        VideoPicker(videoURL: self.$videoURL, player: self.$player)
+                        VideoPicker(videoURL: self.$viewModel.videoURL, player: self.$player)
                     }
                 
                 uploadFormButton
@@ -65,11 +60,10 @@ struct FilmUploadView: View {
     }
     
     @State private var showVideoPicker = false
-    @State private var videoURL: URL?
     @State private var player: AVPlayer?
     @State private var isPlaying = false
     @State private var yearsOptions = [Int](1920...2023)
-
+    
     private var uploadTrailerButton: some View {
         Button {
             self.showVideoPicker = true
@@ -90,12 +84,8 @@ struct FilmUploadView: View {
     
     private var uploadFormButton: some View {
         Button {
-            guard let videoURL else {
-                return
-            }
-            
             Task {
-                await viewModel.uploadFilm(url: videoURL)
+                await viewModel.uploadFilm()
             }
         } label: {
             RoundedRectangle(cornerRadius: 10)

@@ -28,6 +28,7 @@
 		D3A249E529A0F6F8005A2503 /* FilmsFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A249E429A0F6F8005A2503 /* FilmsFeedView.swift */; };
 		D3A249E729A0F6FB005A2503 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A249E629A0F6FB005A2503 /* Assets.xcassets */; };
 		D3A249EA29A0F6FB005A2503 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A249E929A0F6FB005A2503 /* Preview Assets.xcassets */; };
+		D3A60CF429D20C47003A1871 /* FilmTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A60CF329D20C47003A1871 /* FilmTypeModel.swift */; };
 		D3D2F44029BCB9E8004D0332 /* FilmUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D2F43F29BCB9E8004D0332 /* FilmUploadView.swift */; };
 		D3E489E029AA3404001E3EEB /* MoviesFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E489DF29AA3404001E3EEB /* MoviesFeedViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 		D3A249E629A0F6FB005A2503 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3A249E929A0F6FB005A2503 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D3A249F229A10679005A2503 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D3A60CF329D20C47003A1871 /* FilmTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmTypeModel.swift; sourceTree = "<group>"; };
 		D3D2F43F29BCB9E8004D0332 /* FilmUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmUploadView.swift; sourceTree = "<group>"; };
 		D3E489DF29AA3404001E3EEB /* MoviesFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesFeedViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,8 +104,8 @@
 		D39FC4A929C5DF0A00AD0F3A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D39FC4AA29C5DF1D00AD0F3A /* FilmFeedModel.swift */,
-				D39FC4AC29C5DF5300AD0F3A /* FilmUploadModel.swift */,
+				D3A60CF629D20CA0003A1871 /* Decodable */,
+				D3A60CF529D20C99003A1871 /* Encodable */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -165,6 +167,23 @@
 				D3A249E929A0F6FB005A2503 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D3A60CF529D20C99003A1871 /* Encodable */ = {
+			isa = PBXGroup;
+			children = (
+				D39FC4AC29C5DF5300AD0F3A /* FilmUploadModel.swift */,
+			);
+			path = Encodable;
+			sourceTree = "<group>";
+		};
+		D3A60CF629D20CA0003A1871 /* Decodable */ = {
+			isa = PBXGroup;
+			children = (
+				D39FC4AA29C5DF1D00AD0F3A /* FilmFeedModel.swift */,
+				D3A60CF329D20C47003A1871 /* FilmTypeModel.swift */,
+			);
+			path = Decodable;
 			sourceTree = "<group>";
 		};
 		D3D2F43E29BCB981004D0332 /* FilmUploadForm */ = {
@@ -284,6 +303,7 @@
 				D39FC4AB29C5DF1D00AD0F3A /* FilmFeedModel.swift in Sources */,
 				D39FC4AF29C5E93E00AD0F3A /* CustomTextField.swift in Sources */,
 				D39B10D329A1539D008E8F66 /* UIColor+Palette.swift in Sources */,
+				D3A60CF429D20C47003A1871 /* FilmTypeModel.swift in Sources */,
 				D39FC4AD29C5DF5300AD0F3A /* FilmUploadModel.swift in Sources */,
 				D3A249E329A0F6F8005A2503 /* MoviesApp.swift in Sources */,
 				D396580729B3774A00956BD9 /* RootView.swift in Sources */,

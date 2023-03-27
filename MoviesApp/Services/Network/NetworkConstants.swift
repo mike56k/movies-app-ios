@@ -19,6 +19,16 @@ enum NetworkConstants {
 
             static let getCountries = base + "/GetCountries"
         }
+        
+        enum FilmTypes {
+            private static let base = baseUrl + "/FilmTypes"
+            
+            static let getFilmTypes = base + "/FilmTypes"
+        }
+        
+        enum Actors {
+            static let getActors = baseUrl + "/GetActors"
+        }
 
     }
 

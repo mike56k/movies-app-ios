@@ -16,6 +16,18 @@ final class NetworkAPI {
         }
     }
     
+    static func getFilmTypes() async -> [FilmTypeModel] {
+        do {
+            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.FilmTypes.getFilmTypes,
+                                                           parameters: nil)
+            let result: [FilmTypeModel] = try self.parseData(data: data)
+            return result
+        } catch let error {
+            print(error.localizedDescription)
+            return []
+        }
+    }
+    
     static func uploadFilmModel(film: FilmUploadModel) async {
         do {
             let data = try await NetworkManager.shared.post(url: NetworkConstants.Route.Film.uploadModel, parameters: film)
@@ -25,15 +37,16 @@ final class NetworkAPI {
         }
     }
     
-    static func uploadTrailer(trailerUrl: URL) async {
+    static func uploadTrailer(trailerUrl: URL) async -> String {
         do {
             let data = try await NetworkManager.shared.upload(url: NetworkConstants.Route.Film.uploadTrailer,
                                                               multipartFormData: { (multipartFormData) in
                 multipartFormData.append(trailerUrl, withName: "file", fileName: "video.mp4", mimeType: "video/mp4")
             })
-            print(data)
+            return String(decoding: data, as: UTF8.self)
         } catch let error {
             print(error.localizedDescription)
+            return ""
         }
     }
     

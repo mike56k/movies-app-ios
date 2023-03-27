@@ -11,7 +11,7 @@ final class FilmsFeedViewModel: ObservableObject {
     }
     
     @Published var filmsFeedState: FilmsFeedState = .searching
-            
+    
     func fetchFilms(searchText: String) async {
         var result: [FilmFeedModel] = []
         let newFilmsFeedState: FilmsFeedState
