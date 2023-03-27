@@ -4,23 +4,34 @@ import Combine
 final class FilmsFeedViewModel: ObservableObject {
     
     enum FilmsFeedState {
-        case showContent(films: [FilmFeedModel])
+        case showContent
         case searching
         case serverError
         case unknownError
     }
     
+    @Published var films: [FilmFeedModel] = []
     @Published var filmsFeedState: FilmsFeedState = .searching
+    @Published var isLoadingPage: Bool = false
+    @Published var nothingToLoad: Bool = false
     
     func fetchFilms(searchText: String) async {
-        var result: [FilmFeedModel] = []
         let newFilmsFeedState: FilmsFeedState
-        
-        result = await NetworkAPI.getFeed(searchText: searchText, offset: 0)
-        newFilmsFeedState = .showContent(films: result)
+        let result = await NetworkAPI.getFeed(searchText: searchText, offset: 0)
+        newFilmsFeedState = .showContent
         
         await MainActor.run {
             filmsFeedState = newFilmsFeedState
+            films = result
+        }
+    }
+    
+    func fetchMoreFilms(searchText: String) async {
+        let result: [FilmFeedModel] = await NetworkAPI.getFeed(searchText: searchText, offset: films.count + 20)
+        
+        await MainActor.run {
+            films += result
+            nothingToLoad = result.isEmpty
         }
     }
     
@@ -42,52 +53,3 @@ final class DebounceObject: ObservableObject {
     }
     
 }
-
-//class ContentDataSource: ObservableObject {
-//
-//    @Published var items = [ListItem]()
-//    @Published var isLoadingPage = false
-//    private var currentPage = 1
-//    private var canLoadMorePages = true
-//
-//    init() {
-//        loadMoreContent()
-//    }
-//
-//    func loadMoreContentIfNeeded(currentItem item: ListItem?) {
-//        guard let item = item else {
-//          loadMoreContent()
-//          return
-//        }
-//
-//        let thresholdIndex = items.index(items.endIndex, offsetBy: -5)
-//        if items.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
-//          loadMoreContent()
-//        }
-//    }
-//
-//    private func loadMoreContent() {
-//        guard !isLoadingPage && canLoadMorePages else {
-//          return
-//        }
-//
-//        isLoadingPage = true
-//
-//        let url = URL(string: "https://s3.eu-west-2.amazonaws.com/com.donnywals.misc/feed-\(currentPage).json")!
-//        URLSession.shared.dataTaskPublisher(for: url)
-//          .map(\.data)
-//          .decode(type: ListResponse.self, decoder: JSONDecoder())
-//          .receive(on: DispatchQueue.main)
-//          .handleEvents(receiveOutput: { response in
-//            self.canLoadMorePages = response.hasMorePages
-//            self.isLoadingPage = false
-//            self.currentPage += 1
-//          })
-//          .map({ response in
-//            return self.items + response.items
-//          })
-//          .catch({ _ in Just(self.items) })
-//          .assign(to: $items)
-//    }
-//
-//}

@@ -7,10 +7,10 @@ struct FilmsFeedView: View {
     var body: some View {
         Group {
             switch viewModel.filmsFeedState {
-            case .showContent(let films):
+            case .showContent:
                 ScrollView {
                     LazyVStack {
-                        ForEach(films, id: \.id) { film in
+                        ForEach(viewModel.films, id: \.id) { film in
                             NavigationLink {
                                 FilmDetailsView(model: film)
                             } label: {
@@ -19,7 +19,23 @@ struct FilmsFeedView: View {
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
+                        
+                        Group {
+                            if viewModel.nothingToLoad {
+                                Text("Больше фильмов нет")
+                            }
+                            else {
+                                ProgressView()
+                            }
+                        }
+                        .onAppear {
+                            Task {
+                                await viewModel.fetchMoreFilms(searchText: debounceObject.debouncedText)
+                            }
+                        }
                     }
+                    
+
                 }
                 .searchable(text: $debounceObject.text)
                 .onChange(of: debounceObject.debouncedText) { searchText in
@@ -30,7 +46,7 @@ struct FilmsFeedView: View {
                 .refreshable {
                     await viewModel.fetchFilms(searchText: "")
                 }
-                
+
             case .searching:
                 stretch(view:
                     VStack {
@@ -38,6 +54,9 @@ struct FilmsFeedView: View {
                         Text("Идет поиск...")
                     }
                 )
+                .task {
+                    await viewModel.fetchFilms(searchText: "")
+                }
                 
             case .serverError:
                 stretch(view: Text("Ошибка на сервере :("))
@@ -71,9 +90,6 @@ struct FilmsFeedView: View {
                 .buttonStyle(PlainButtonStyle())
             }
         }
-        .task {
-            await viewModel.fetchFilms(searchText: "")
-        }
     }
     
     @State private var isSettingsPresented = false
@@ -91,25 +107,3 @@ struct FilmsFeedView: View {
     }
     
 }
-
-//struct EndlessList: View {
-//  @StateObject var dataSource = ContentDataSource()
-//
-//  var body: some View {
-//    ScrollView {
-//      LazyVStack {
-//        ForEach(dataSource.items) { item in
-//          Text(item.label)
-//            .onAppear {
-//              dataSource.loadMoreContentIfNeeded(currentItem: item)
-//            }
-//            .padding(.all, 30)
-//        }
-//
-//        if dataSource.isLoadingPage {
-//          ProgressView()
-//        }
-//      }
-//    }
-//  }
-//}
