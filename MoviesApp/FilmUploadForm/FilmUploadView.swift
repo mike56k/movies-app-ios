@@ -91,8 +91,13 @@ struct FilmUploadView: View {
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.blue)
                 .overlay {
-                    Text("Отправить")
-                        .foregroundColor(.white)
+                    if viewModel.isSending {
+                        ProgressView()
+                    }
+                    else {
+                        Text("Отправить")
+                            .foregroundColor(.white)
+                    }
                 }
                 .frame(minHeight: 50)
         }

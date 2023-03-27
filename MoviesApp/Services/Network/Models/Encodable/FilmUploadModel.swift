@@ -6,6 +6,7 @@ struct FilmUploadModel: Encodable {
     let description: String
     let yearOfRelease: Int
     let length: Int
+    let trailerFileName: String
     let filmTypeId: Int
     let countriesIds: [Int]
     let genresIds: [Int]

@@ -6,13 +6,25 @@ final class NetworkAPI {
     static func getFeed(searchText: String, offset: Int) async -> [FilmFeedModel] {
         let escapedSearchTerm = searchText.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
         do {
-            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Film.searchFilms + "?searchQuery=\(escapedSearchTerm)&count=20&offset=\(offset)",
+            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Films.searchFilms + "?searchQuery=\(escapedSearchTerm)&count=20&offset=\(offset)",
                                                            parameters: nil)
             let result: [FilmFeedModel] = try self.parseData(data: data)
             return result
         } catch let error {
             print(error.localizedDescription)
             return []
+        }
+    }
+    
+    static func getFilmDetails(by id: Int) async -> FilmDetailsModel? {
+        do {
+            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Films.getById + String(id),
+                                                           parameters: nil)
+            let result: FilmDetailsModel = try self.parseData(data: data)
+            return result
+        } catch let error {
+            print(error.localizedDescription)
+            return nil
         }
     }
     
@@ -30,8 +42,8 @@ final class NetworkAPI {
     
     static func uploadFilmModel(film: FilmUploadModel) async {
         do {
-            let data = try await NetworkManager.shared.post(url: NetworkConstants.Route.Film.uploadModel, parameters: film)
-            // TODO: Process result
+            let data = try await NetworkManager.shared.post(url: NetworkConstants.Route.Films.uploadModel, parameters: film)
+            print(String(decoding: data, as: UTF8.self))
         } catch let error {
             print(error.localizedDescription)
         }
@@ -39,7 +51,7 @@ final class NetworkAPI {
     
     static func uploadTrailer(trailerUrl: URL) async -> String {
         do {
-            let data = try await NetworkManager.shared.upload(url: NetworkConstants.Route.Film.uploadTrailer,
+            let data = try await NetworkManager.shared.upload(url: NetworkConstants.Route.Films.uploadTrailer,
                                                               multipartFormData: { (multipartFormData) in
                 multipartFormData.append(trailerUrl, withName: "file", fileName: "video.mp4", mimeType: "video/mp4")
             })

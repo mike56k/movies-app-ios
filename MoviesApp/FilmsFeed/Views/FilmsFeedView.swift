@@ -12,7 +12,7 @@ struct FilmsFeedView: View {
                     LazyVStack {
                         ForEach(viewModel.films, id: \.id) { film in
                             NavigationLink {
-                                FilmDetailsView(model: film)
+                                FilmDetailsView(filmId: film.id)
                             } label: {
                                 FilmCardView(model: film)
                                     .padding(.horizontal, 10)
@@ -44,7 +44,7 @@ struct FilmsFeedView: View {
                     }
                 }
                 .refreshable {
-                    await viewModel.fetchFilms(searchText: "")
+                    await viewModel.fetchFilms(searchText: debounceObject.debouncedText)
                 }
 
             case .searching:

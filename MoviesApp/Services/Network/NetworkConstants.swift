@@ -6,14 +6,15 @@ enum NetworkConstants {
 
     enum Route {
 
-        enum Film {
+        enum Films {
             private static let base = baseUrl + "/Films"
 
             static let uploadTrailer = base + "/DownloadVideo"
             static let uploadModel = base + "/CreateFilm"
             static let searchFilms = base + "/SearchFilms"
+            static let getById = base + "/GetById"
         }
-
+        
         enum Countries {
             private static let base = baseUrl + "/Countries"
 
