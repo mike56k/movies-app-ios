@@ -10,7 +10,7 @@ struct FilmDetailsModel: Decodable {
     let countries: [CountryModel]
     let mediaFiles: [MediaFileModel]
     let genres: [GenreModel]
-//    let filmPeople: [FilmPersonModel]
+    let filmPeople: [FilmPersonModel]
 }
 
 struct FilmTypeModel: Decodable {
@@ -38,19 +38,24 @@ struct FilmPersonModel: Decodable {
     let speciality: SpecialityModel
 }
 
+struct PersonModel: Decodable {
+    let id: Int
+    let name: String
+    let growth: Int
+    let dateBirth: String?
+    let dateDeath: String?
+    let birthPlace: String
+    let gender: GenderModel
+    let specialities: [SpecialityModel]
+    let mediaFiles: [MediaFileModel]
+}
+
 struct SpecialityModel: Decodable {
     let id: Int
     let name: String
 }
 
-struct PersonModel: Decodable {
+struct GenderModel: Decodable {
     let id: Int
-    let name: String
-    let growth: Int
-    let dateBirth: String
-    let dateDeath: String
-    let birthPlace: String
-    let genderId: Int
-    let specialities: [SpecialityModel]
-    let mediaFiles: [MediaFileModel]
+    let value: String
 }

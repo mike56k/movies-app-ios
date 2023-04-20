@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 import AVKit
+import PhotosUI
 
 struct FilmUploadView: View {
     
@@ -33,23 +34,38 @@ struct FilmUploadView: View {
                     }
                 }
                 
-                if player != nil {
-                    VideoPlayer(player: player!)
-                        .frame(height: 300)
-                        .onTapGesture {
-                            self.isPlaying.toggle()
-                            if self.isPlaying {
-                                self.player?.play()
-                            } else {
-                                self.player?.pause()
-                            }
+                VStack(alignment: .leading) {
+                    if let image = viewModel.posterImage {
+                        Text("Добавленная обложка")
+
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxHeight: 300)
+                            .clipped()
+                            .cornerRadius(20)
+                    }
+                    
+                    uploadPosterButton
+                        .sheet(isPresented: $showSheet) {
+                            ImagePicker(image: $viewModel.posterImage, videoURL: $viewModel.videoURL)
                         }
                 }
+
                 
-                uploadTrailerButton
-                    .sheet(isPresented: $showVideoPicker) {
-                        VideoPicker(videoURL: self.$viewModel.videoURL, player: self.$player)
+                VStack(alignment: .leading) {
+                    if let selectedVideoURL = viewModel.videoURL {
+                        Text("Добавленный трейлер")
+
+                        VideoPlayer(player: AVPlayer(url: selectedVideoURL))
+                            .frame(height: 300)
                     }
+                    
+                    uploadTrailerButton
+                        .sheet(isPresented: $showSheet) {
+                            ImagePicker(image: $viewModel.posterImage, videoURL: $viewModel.videoURL)
+                        }
+                }
                 
                 uploadFormButton
                 Spacer()
@@ -57,22 +73,59 @@ struct FilmUploadView: View {
             .padding(20)
         }
         .navigationTitle("Добавление фильма")
+        .onAppear {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .videoChat, options: [.duckOthers,
+                                                                                                        .defaultToSpeaker,
+                                                                                                        .allowAirPlay,
+                                                                                                        .allowBluetooth])
+            } catch {
+                print("Problems with sound")
+            }
+        }
     }
     
-    @State private var showVideoPicker = false
-    @State private var player: AVPlayer?
+    @State private var showSheet = false
     @State private var isPlaying = false
     @State private var yearsOptions = [Int](1920...2023)
     
     private var uploadTrailerButton: some View {
         Button {
-            self.showVideoPicker = true
+            self.showSheet = true
         } label: {
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.gray)
                 .overlay {
                     HStack {
-                        Text("Загрузить трейлер")
+                        if viewModel.videoURL != nil {
+                            Text("Обновить трейлер")
+                        }
+                        else {
+                            Text("Загрузить трейлер")
+                        }
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .foregroundColor(.white)
+                }
+                .frame(minHeight: 50)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    private var uploadPosterButton: some View {
+        Button {
+            self.showSheet = true
+        } label: {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.gray)
+                .overlay {
+                    HStack {
+                        if viewModel.posterImage != nil {
+                            Text("Обновить обложку")
+                        }
+                        else {
+                            Text("Загрузить обложку")
+                        }
                         Image(systemName: "square.and.arrow.up")
                     }
                     .foregroundColor(.white)
@@ -105,43 +158,70 @@ struct FilmUploadView: View {
     }
 }
 
-struct VideoPicker: UIViewControllerRepresentable {
-    @Environment(\.presentationMode) var presentationMode
-    @Binding var videoURL: URL?
-    @Binding var player: AVPlayer?
+struct ImagePicker: UIViewControllerRepresentable {
     
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
-        picker.mediaTypes = [UTType.movie.identifier]
+    @Binding var image: UIImage?
+    @Binding var videoURL: URL?
+    
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.filter = .any(of: [.images, .videos])
+        let picker = PHPickerViewController(configuration: config)
         picker.delegate = context.coordinator
         return picker
     }
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-    
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(self)
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
+
     }
-    
-    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: VideoPicker
-        
-        init(_ parent: VideoPicker) {
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        let parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
             self.parent = parent
         }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            guard let url = info[.mediaURL] as? URL else {
-                return
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true) {
+                guard let result = results.first else { return }
+                let prov = result.itemProvider
+                if prov.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+                    self.dealWithVideo(result)
+                } else if prov.canLoadObject(ofClass: UIImage.self) {
+                    self.dealWithImage(result)
+                }
             }
-            self.parent.videoURL = url
-            self.parent.player = AVPlayer(url: url)
-            self.parent.presentationMode.wrappedValue.dismiss()
         }
         
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            self.parent.presentationMode.wrappedValue.dismiss()
+        private func dealWithVideo(_ result: PHPickerResult) {
+            let movie = UTType.movie.identifier
+            let prov = result.itemProvider
+            prov.loadFileRepresentation(forTypeIdentifier: movie) { url, err in
+                if let url = url {
+                    let fileName = "\(Int(Date().timeIntervalSince1970)).\(url.pathExtension)"
+                    let newUrl = URL(fileURLWithPath: NSTemporaryDirectory() + fileName)
+                    try? FileManager.default.copyItem(at: url, to: newUrl)
+                    DispatchQueue.main.async {
+                        self.parent.videoURL = newUrl
+                    }
+                }
+            }
+        }
+        
+        private func dealWithImage(_ result: PHPickerResult) {
+            let prov = result.itemProvider
+            prov.loadObject(ofClass: UIImage.self) { im, err in
+                if let im = im as? UIImage {
+                    DispatchQueue.main.async {
+                        self.parent.image = im
+                    }
+                }
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ struct FilmCardView: View {
         HStack(spacing: 0) {
             Group {
                 if let posterUrl = model.posterUrl {
-                    AsyncImage(url: URL(string: "http://95.163.211.116:8001/" + posterUrl)) { image in
+                    AsyncImage(url: getPosterUrl(name: posterUrl)) { image in
                         image
                             .resizable()
                             .scaledToFill()
@@ -68,6 +68,10 @@ struct FilmCardView: View {
         else {
             return .red
         }
+    }
+    
+    private func getPosterUrl(name: String) -> URL? {
+        return URL(string: "http://95.163.211.116:8001/" + (name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""))
     }
     
 }

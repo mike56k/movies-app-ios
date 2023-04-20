@@ -18,7 +18,7 @@ final class NetworkAPI {
     
     static func getFilmDetails(by id: Int) async -> FilmDetailsModel? {
         do {
-            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Films.getById + String(id),
+            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Films.getById + "/" + String(id),
                                                            parameters: nil)
             let result: FilmDetailsModel = try self.parseData(data: data)
             return result

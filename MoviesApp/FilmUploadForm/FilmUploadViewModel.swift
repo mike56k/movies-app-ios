@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 final class FilmUploadViewModel: ObservableObject {
     
@@ -8,10 +8,15 @@ final class FilmUploadViewModel: ObservableObject {
     @Published var yearOfRelease: Int = 2023
     @Published var length: String = ""
     @Published var videoURL: URL?
+    @Published var posterImage: UIImage?
     @Published var isSending: Bool = false
     
     func uploadFilm() async {
         guard let videoURL = videoURL else {
+            return
+        }
+        
+        guard let image = posterImage else {
             return
         }
         
@@ -27,14 +32,22 @@ final class FilmUploadViewModel: ObservableObject {
                                                                yearOfRelease: yearOfRelease,
                                                                length: Int(length) ?? 0,
                                                                trailerFileName: trailerFileName,
+                                                               poster: Poster(imageBase64: image.base64!, extension: ".png"),
                                                                filmTypeId: 1,
                                                                countriesIds: [1],
                                                                genresIds: [1],
-                                                               personDTO: []))
+                                                               personDTO: [],
+                                                               filmImages: []))
         
         await MainActor.run {
             isSending = false
         }
     }
     
+}
+
+extension UIImage {
+    var base64: String? {
+        self.jpegData(compressionQuality: 1)?.base64EncodedString()
+    }
 }
