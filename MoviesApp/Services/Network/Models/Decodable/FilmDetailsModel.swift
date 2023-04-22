@@ -1,3 +1,5 @@
+import Foundation
+
 struct FilmDetailsModel: Decodable {
     let id: Int
     let name: String
@@ -31,9 +33,11 @@ struct GenreModel: Decodable {
 struct MediaFileModel: Decodable {
     let id: Int
     let path: String
+    let type: Int
 }
 
-struct FilmPersonModel: Decodable {
+struct FilmPersonModel: Decodable, Identifiable {
+    let id = UUID()
     let person: PersonModel
     let speciality: SpecialityModel
 }

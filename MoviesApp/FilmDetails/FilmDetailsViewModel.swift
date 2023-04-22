@@ -12,4 +12,19 @@ final class FilmDetailsViewModel: ObservableObject {
         }
     }
     
+    func getMediaUrl(name: String, type: Int) -> URL? {
+        
+        // TODO: Refactor -> Make MediaType enum
+        
+        if type == 1 || type == 2 {
+            return URL(string: "http://95.163.211.116:8001/" + (name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""))
+        }
+        
+        if type == 3 {
+            return URL(string: "http://95.163.211.116:8001/trailers/" + (name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""))
+        }
+        
+        return nil
+    }
+    
 }

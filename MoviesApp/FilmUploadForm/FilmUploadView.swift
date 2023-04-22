@@ -20,10 +20,10 @@ struct FilmUploadView: View {
     var body: some View {
         ScrollView {
             VStack {
-                CustomTextField(input: $viewModel.name, placeholder: "Название")
-                CustomTextField(input: $viewModel.engName, placeholder: "Оригинальное название")
-                CustomTextField(input: $viewModel.description, placeholder: "Описание")
-                CustomTextField(input: $viewModel.length, placeholder: "Продолжительность в мин.", accepts: .number)
+                UniversalTextField(input: $viewModel.name, placeholder: "Название")
+                UniversalTextField(input: $viewModel.engName, placeholder: "Оригинальное название")
+                UniversalTextField(input: $viewModel.description, placeholder: "Описание")
+                UniversalTextField(input: $viewModel.length, placeholder: "Продолжительность в мин.", accepts: .number)
 
                 HStack {
                     Text("Год выпуска")
@@ -89,72 +89,48 @@ struct FilmUploadView: View {
     @State private var isPlaying = false
     @State private var yearsOptions = [Int](1920...2023)
     
-    private var uploadTrailerButton: some View {
-        Button {
-            self.showSheet = true
-        } label: {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.gray)
-                .overlay {
-                    HStack {
-                        if viewModel.videoURL != nil {
-                            Text("Обновить трейлер")
-                        }
-                        else {
-                            Text("Загрузить трейлер")
-                        }
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .foregroundColor(.white)
-                }
-                .frame(minHeight: 50)
+    private var uploadPosterButtonTitle: String {
+        if viewModel.posterImage == nil {
+            return "Загрузить обложку"
         }
-        .buttonStyle(PlainButtonStyle())
+        else {
+            return "Обновить обложку"
+        }
+    }
+    
+    private var uploadTrailerButtonTitle: String {
+        if viewModel.videoURL == nil {
+            return "Загрузить трейлер"
+        }
+        else {
+            return "Обновить трейлер"
+        }
+    }
+    
+    private var uploadTrailerButton: some View {
+        ActionButton(action: {
+            self.showSheet = true
+        },
+                     title: uploadTrailerButtonTitle,
+                     style: .secondary,
+                     imageName: "square.and.arrow.up")
     }
     
     private var uploadPosterButton: some View {
-        Button {
+        ActionButton(action: {
             self.showSheet = true
-        } label: {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.gray)
-                .overlay {
-                    HStack {
-                        if viewModel.posterImage != nil {
-                            Text("Обновить обложку")
-                        }
-                        else {
-                            Text("Загрузить обложку")
-                        }
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    .foregroundColor(.white)
-                }
-                .frame(minHeight: 50)
-        }
-        .buttonStyle(PlainButtonStyle())
+        },
+                     title: uploadPosterButtonTitle,
+                     style: .secondary,
+                     imageName: "square.and.arrow.up")
     }
     
     private var uploadFormButton: some View {
-        Button {
+        ActionButton(action: {
             Task {
                 await viewModel.uploadFilm()
             }
-        } label: {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.blue)
-                .overlay {
-                    if viewModel.isSending {
-                        ProgressView()
-                    }
-                    else {
-                        Text("Отправить")
-                            .foregroundColor(.white)
-                    }
-                }
-                .frame(minHeight: 50)
-        }
-        .buttonStyle(PlainButtonStyle())
+        }, title: "Отправить", style: .accent, isLoading: viewModel.isSending)
     }
 }
 

@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-struct CustomTextField: View {
+struct UniversalTextField: View {
     
     enum Accepts {
         case text

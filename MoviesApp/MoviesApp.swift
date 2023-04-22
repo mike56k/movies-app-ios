@@ -13,10 +13,10 @@ struct MoviesApp: App {
                     Label("Фильмы", systemImage: "list.dash")
                 }
                 
-                RootView()
-                    .tabItem {
-                        Label("Профиль", systemImage: "person.crop.circle")
-                    }
+                AuthView()
+                .tabItem {
+                    Label("Профиль", systemImage: "person.crop.circle")
+                }
             }
             .onAppear {
                 GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in

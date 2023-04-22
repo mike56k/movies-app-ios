@@ -2,10 +2,49 @@ import SwiftUI
 import GoogleSignInSwift
 import GoogleSignIn
 
-struct RootView: View {
+struct AuthView: View {
+    
+    @StateObject private var viewModel = AuthViewModel()
     
     var body: some View {
-        GoogleSignInButton(action: handleSignInButton)
+        ScrollView {
+            VStack(spacing: 30) {
+                VStack(alignment: .leading) {
+                    Text("Режим использования")
+                        .font(.system(size: 22))
+                        .fontWeight(.semibold)
+                    
+                    ForEach(Role.allCases) { role in
+                        ActionButton(action: {
+                            withAnimation {
+                                viewModel.changeCurrentRole(newRole: role)
+                            }
+                        }, title: viewModel.titleForRole(role: role), style: makeAccent(ifCurrentRole: role))
+                    }
+                }
+                
+                if viewModel.currentRole != .guest {
+                    authForm
+                        .transition(.scale)
+                }
+            }
+            .padding()
+        }
+        
+    }
+    
+    private var authForm: some View {
+        VStack(alignment: .leading) {
+            Text("Авторизуйтесь в системе")
+                .font(.system(size: 22))
+                .fontWeight(.semibold)
+            
+            GoogleSignInButton(action: handleSignInButton)
+        }
+    }
+    
+    private func makeAccent(ifCurrentRole role: Role) -> ActionButton.ActionButtonStyle {
+        return viewModel.currentRole == role ? .accent : .secondary
     }
     
     private func handleSignInButton() {
