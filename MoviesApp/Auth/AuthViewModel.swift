@@ -2,6 +2,8 @@ import SwiftUI
 
 final class AuthViewModel: ObservableObject {
     
+    @ObservedObject var roleManager = RoleManager.shared
+    
     func titleForRole(role: Role) -> String {
         switch role {
         case .guest:
@@ -13,15 +15,6 @@ final class AuthViewModel: ObservableObject {
         case .admin:
             return "Админ"
         }
-    }
-    
-    var currentRole: Role {
-        return RoleManager.shared.currentRole
-    }
-    
-    func changeCurrentRole(newRole: Role) {
-        RoleManager.shared.currentRole = newRole
-        objectWillChange.send()
     }
     
 }

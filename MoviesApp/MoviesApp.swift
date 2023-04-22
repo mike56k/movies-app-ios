@@ -3,6 +3,8 @@ import GoogleSignIn
 
 @main
 struct MoviesApp: App {
+    @StateObject var roleManager = RoleManager()
+
     var body: some Scene {
         WindowGroup {
             TabView {
@@ -26,6 +28,7 @@ struct MoviesApp: App {
                     }
                 }
             }
+            .environmentObject(roleManager)
         }
     }
 }

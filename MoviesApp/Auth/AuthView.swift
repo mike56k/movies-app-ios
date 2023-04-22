@@ -5,6 +5,7 @@ import GoogleSignIn
 struct AuthView: View {
     
     @StateObject private var viewModel = AuthViewModel()
+    @EnvironmentObject var roleManager: RoleManager
     
     var body: some View {
         ScrollView {
@@ -17,13 +18,13 @@ struct AuthView: View {
                     ForEach(Role.allCases) { role in
                         ActionButton(action: {
                             withAnimation {
-                                viewModel.changeCurrentRole(newRole: role)
+                                roleManager.currentRole = role
                             }
                         }, title: viewModel.titleForRole(role: role), style: makeAccent(ifCurrentRole: role))
                     }
                 }
                 
-                if viewModel.currentRole != .guest {
+                if roleManager.currentRole != .guest {
                     authForm
                         .transition(.scale)
                 }
@@ -44,7 +45,7 @@ struct AuthView: View {
     }
     
     private func makeAccent(ifCurrentRole role: Role) -> ActionButton.ActionButtonStyle {
-        return viewModel.currentRole == role ? .accent : .secondary
+        return roleManager.currentRole == role ? .accent : .secondary
     }
     
     private func handleSignInButton() {

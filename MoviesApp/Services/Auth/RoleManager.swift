@@ -10,7 +10,7 @@ enum Role: Int, CaseIterable, Identifiable {
     case admin
 }
 
-final class RoleManager {
+final class RoleManager: ObservableObject {
     
     private enum Constants {
         static let currentRoleKey = "current_role"
@@ -19,21 +19,30 @@ final class RoleManager {
     static let shared = RoleManager()
     private let userDefaults = UserDefaults.standard
     
+    @Published private var hiddenCurrentRole: Role = .guest
     var currentRole: Role {
         get {
-            let rawValue = userDefaults.integer(forKey: Constants.currentRoleKey)
-            guard let role = Role(rawValue: rawValue) else {
-                return .guest
-            }
-            
-            return role
+            return hiddenCurrentRole
         }
         set {
+            guard newValue != hiddenCurrentRole else {
+                return
+            }
+            
+            hiddenCurrentRole = newValue
             userDefaults.set(newValue.rawValue, forKey: Constants.currentRoleKey)
         }
     }
     
     init() {
+        readStoredCurrentRole()
+    }
+    
+    private func readStoredCurrentRole() {
+        let rawValue = userDefaults.integer(forKey: Constants.currentRoleKey)
+        if let role = Role(rawValue: rawValue) {
+            hiddenCurrentRole = role
+        }
     }
     
 }

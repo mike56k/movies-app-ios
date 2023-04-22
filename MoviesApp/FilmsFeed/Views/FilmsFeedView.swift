@@ -3,7 +3,8 @@ import SwiftUI
 struct FilmsFeedView: View {
     @StateObject var viewModel = FilmsFeedViewModel()
     @StateObject var debounceObject = DebounceObject()
-    
+    @EnvironmentObject var roleManager: RoleManager
+
     var body: some View {
         Group {
             switch viewModel.filmsFeedState {
@@ -82,12 +83,14 @@ struct FilmsFeedView: View {
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    FilmUploadView()
-                } label: {
-                    Image(systemName: "plus.app")
+                if roleManager.currentRole == .admin {
+                    NavigationLink {
+                        FilmUploadView()
+                    } label: {
+                        Image(systemName: "plus.app")
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
-                .buttonStyle(PlainButtonStyle())
             }
         }
     }
