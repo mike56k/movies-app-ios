@@ -12,16 +12,13 @@ actor NetworkManager: GlobalActor {
     }()
     
     private let maxWaitTime = 15.0
-    var commonHeaders: HTTPHeaders = [
-        "Authorization": "PLACE_TOKEN_HERE",
-    ]
 
-    func get(url: String, parameters: Parameters?) async throws -> Data {
+    func get(url: String, parameters: Parameters?, headers: HTTPHeaders? = nil) async throws -> Data {
         return try await withCheckedThrowingContinuation { continuation in
             session.request(
                 url,
                 parameters: parameters,
-                headers: commonHeaders,
+                headers: headers,
                 requestModifier: { $0.timeoutInterval = self.maxWaitTime }
             )
             .responseData { response in

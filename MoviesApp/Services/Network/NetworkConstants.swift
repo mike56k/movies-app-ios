@@ -30,6 +30,12 @@ enum NetworkConstants {
         enum Actors {
             static let getActors = baseUrl + "/GetActors"
         }
+        
+        enum Users {
+            private static let base = baseUrl + "/Users"
+
+            static let getId = base + "/GetId"
+        }
 
     }
 

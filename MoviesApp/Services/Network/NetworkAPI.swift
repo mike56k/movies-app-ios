@@ -1,5 +1,6 @@
 import Foundation
 import Alamofire
+import GoogleSignIn
 
 final class NetworkAPI {
     
@@ -62,6 +63,16 @@ final class NetworkAPI {
         }
     }
     
+    static func getUserId() async -> String {
+        do {
+            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Users.getId, parameters: nil, headers: headersWithToken)
+            return String(decoding: data, as: UTF8.self)
+        } catch let error {
+            print(error.localizedDescription)
+            return ""
+        }
+    }
+    
     private static func parseData<T: Decodable>(data: Data) throws -> T {
         guard let decodedData = try? JSONDecoder().decode(T.self, from: data)
         else {
@@ -72,6 +83,21 @@ final class NetworkAPI {
             )
         }
         return decodedData
+    }
+    
+    private static var headersWithToken: HTTPHeaders? {
+        guard let currentUser = GIDSignIn.sharedInstance.currentUser else {
+            return nil
+        }
+        Task {
+            try await currentUser.refreshTokensIfNeeded()
+        }
+        guard let idToken = currentUser.idToken else {
+            return nil
+        }
+        return [
+            "Authorization": idToken.tokenString
+        ]
     }
     
 }

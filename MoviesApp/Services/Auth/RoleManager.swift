@@ -17,9 +17,10 @@ final class RoleManager: ObservableObject {
     }
     
     static let shared = RoleManager()
-    private let userDefaults = UserDefaults.standard
     
+    private let userDefaults = UserDefaults.standard
     @Published private var hiddenCurrentRole: Role = .guest
+    
     var currentRole: Role {
         get {
             return hiddenCurrentRole
@@ -35,10 +36,10 @@ final class RoleManager: ObservableObject {
     }
     
     init() {
-        readStoredCurrentRole()
+        readStoredCurrentRoleIfExists()
     }
     
-    private func readStoredCurrentRole() {
+    private func readStoredCurrentRoleIfExists() {
         let rawValue = userDefaults.integer(forKey: Constants.currentRoleKey)
         if let role = Role(rawValue: rawValue) {
             hiddenCurrentRole = role

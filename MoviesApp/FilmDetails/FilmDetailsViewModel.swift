@@ -14,7 +14,7 @@ final class FilmDetailsViewModel: ObservableObject {
     
     func getMediaUrl(name: String, type: Int) -> URL? {
         
-        // TODO: Refactor -> Make MediaType enum
+        // TODO: Refactor -> Make MediaType enum + URLs to service
         
         if type == 1 || type == 2 {
             return URL(string: "http://95.163.211.116:8001/" + (name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""))

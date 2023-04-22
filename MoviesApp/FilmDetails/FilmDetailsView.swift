@@ -31,6 +31,8 @@ struct FilmDetailsView: View {
     
     private func factsSectionView(model: FilmDetailsModel) -> some View {
         Section {
+            descriptionRow(title: "Название",
+                           value: "\(model.name)")
             descriptionRow(title: "Год выпуска",
                            value: "\(model.yearOfRelease)")
             descriptionRow(title: "Ориг. название",
@@ -58,14 +60,51 @@ struct FilmDetailsView: View {
     
     private func actorsSectionView(model: FilmDetailsModel) -> some View {
         Section {
-            VStack(spacing: 0) {
-                ForEach(model.filmPeople) { filmPerson in
-                    ActorCardView(model: filmPerson.person)
-                    Divider()
+            ScrollView(.horizontal) {
+                HStack(spacing: 0) {
+                    ForEach(model.filmPeople) { filmPerson in
+                        ActorCardView(model: filmPerson.person)
+                            .frame(maxWidth: 200)
+                        Divider()
+                    }
                 }
             }
         } header: {
-            Text("Актеры")
+            HStack {
+                Text("Актёры")
+                
+                Spacer()
+                
+                NavigationLink("Все") {
+                    ScrollView(.vertical) {
+                        VStack(spacing: 0) {
+                            ForEach(model.filmPeople) { filmPerson in
+                                ActorCardView(model: filmPerson.person)
+                                Divider()
+                            }
+                        }
+                        .padding()
+                    }
+                    .navigationTitle("Актеры фильма: " + model.name)
+                }
+            }
+        }
+    }
+    
+    private func commentsSectionView(model: FilmDetailsModel) -> some View {
+        Section {
+            Text("Коменты")
+//            ScrollView(.vertical) {
+//                VStack(spacing: 0) {
+//                    ForEach(model.filmPeople) { filmPerson in
+//                        ActorCardView(model: filmPerson.person)
+//                            .frame(maxWidth: 200)
+//                        Divider()
+//                    }
+//                }
+//            }
+        } header: {
+            Text("Рецензии")
         }
     }
     

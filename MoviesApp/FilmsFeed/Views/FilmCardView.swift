@@ -36,7 +36,7 @@ struct FilmCardView: View {
                 Text("Рейтинг " + String(model.rating))
                     .foregroundColor(ratingColor(rating: model.rating))
                     .font(.system(size: 14))
-
+                
                 Text(model.genres.map { $0.capitalized }.joined(separator: ", "))
                     .fontWeight(.light)
                     .font(.system(size: 14))

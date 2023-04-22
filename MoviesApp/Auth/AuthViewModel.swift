@@ -1,9 +1,7 @@
 import SwiftUI
 
 final class AuthViewModel: ObservableObject {
-    
-    @ObservedObject var roleManager = RoleManager.shared
-    
+        
     func titleForRole(role: Role) -> String {
         switch role {
         case .guest:
@@ -15,6 +13,11 @@ final class AuthViewModel: ObservableObject {
         case .admin:
             return "Админ"
         }
+    }
+    
+    func authorizeUser() async {
+        let userId = await NetworkAPI.getUserId()
+        print(userId)
     }
     
 }
