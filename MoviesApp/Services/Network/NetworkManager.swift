@@ -32,9 +32,9 @@ actor NetworkManager: GlobalActor {
         }
     }
     
-    func post<Parameters: Encodable>(url: String, parameters: Parameters?) async throws -> Data {
+    func post<Parameters: Encodable>(url: String, parameters: Parameters?, headers: HTTPHeaders?) async throws -> Data {
         return try await withCheckedThrowingContinuation { continuation in
-            session.request(url, method: .post, parameters: parameters, encoder: .json)
+            session.request(url, method: .post, parameters: parameters, encoder: .json, headers: headers)
                 .responseData { response in
                     switch(response.result) {
                     case let .success(data):

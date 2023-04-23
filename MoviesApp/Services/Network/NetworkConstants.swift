@@ -36,6 +36,13 @@ enum NetworkConstants {
 
             static let getId = base + "/GetId"
         }
+        
+        enum Comments {
+            private static let base = baseUrl + "/Comments"
+            
+            static let createComment = base
+            static let deleteComment = base
+        }
 
     }
 

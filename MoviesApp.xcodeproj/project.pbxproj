@@ -34,6 +34,9 @@
 		D3B5E11429F4009A005B913C /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5E11329F4009A005B913C /* ActionButton.swift */; };
 		D3B5E11629F40F97005B913C /* RoleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5E11529F40F97005B913C /* RoleManager.swift */; };
 		D3B5E11929F40FD3005B913C /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5E11829F40FD3005B913C /* AuthViewModel.swift */; };
+		D3B5E11D29F49868005B913C /* CommentCreateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5E11C29F49868005B913C /* CommentCreateModel.swift */; };
+		D3B5E12229F4B71F005B913C /* CommentFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5E12129F4B71F005B913C /* CommentFormView.swift */; };
+		D3B5E12429F4B7F7005B913C /* CommentFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B5E12329F4B7F7005B913C /* CommentFormViewModel.swift */; };
 		D3D2F44029BCB9E8004D0332 /* FilmUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D2F43F29BCB9E8004D0332 /* FilmUploadView.swift */; };
 		D3E489E029AA3404001E3EEB /* FilmsFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E489DF29AA3404001E3EEB /* FilmsFeedViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +68,9 @@
 		D3B5E11329F4009A005B913C /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		D3B5E11529F40F97005B913C /* RoleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleManager.swift; sourceTree = "<group>"; };
 		D3B5E11829F40FD3005B913C /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		D3B5E11C29F49868005B913C /* CommentCreateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCreateModel.swift; sourceTree = "<group>"; };
+		D3B5E12129F4B71F005B913C /* CommentFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFormView.swift; sourceTree = "<group>"; };
+		D3B5E12329F4B7F7005B913C /* CommentFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFormViewModel.swift; sourceTree = "<group>"; };
 		D3D2F43F29BCB9E8004D0332 /* FilmUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmUploadView.swift; sourceTree = "<group>"; };
 		D3E489DF29AA3404001E3EEB /* FilmsFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmsFeedViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,6 +142,8 @@
 				D3A60CF729D22CBB003A1871 /* FilmDetailsViewModel.swift */,
 				D39B10D829A164F8008E8F66 /* TrailerPlayer.swift */,
 				D3B0AE8C29F1E01800DAC1E9 /* ActorCardView.swift */,
+				D3B5E12129F4B71F005B913C /* CommentFormView.swift */,
+				D3B5E12329F4B7F7005B913C /* CommentFormViewModel.swift */,
 			);
 			path = FilmDetails;
 			sourceTree = "<group>";
@@ -187,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				D39FC4AC29C5DF5300AD0F3A /* FilmUploadModel.swift */,
+				D3B5E11C29F49868005B913C /* CommentCreateModel.swift */,
 			);
 			path = Encodable;
 			sourceTree = "<group>";
@@ -339,15 +348,18 @@
 				D3A249E529A0F6F8005A2503 /* FilmsFeedView.swift in Sources */,
 				D39B10DB29A16F13008E8F66 /* FiltersView.swift in Sources */,
 				D39FC4A829C5DEBC00AD0F3A /* FilmUploadViewModel.swift in Sources */,
+				D3B5E11D29F49868005B913C /* CommentCreateModel.swift in Sources */,
 				D39B10D529A1649D008E8F66 /* FilmCardView.swift in Sources */,
 				D3B0AE8D29F1E01800DAC1E9 /* ActorCardView.swift in Sources */,
 				D39FC4AB29C5DF1D00AD0F3A /* FilmFeedModel.swift in Sources */,
+				D3B5E12429F4B7F7005B913C /* CommentFormViewModel.swift in Sources */,
 				D39FC4AF29C5E93E00AD0F3A /* UniversalTextField.swift in Sources */,
 				D39B10D329A1539D008E8F66 /* UIColor+Palette.swift in Sources */,
 				D3A60CF829D22CBB003A1871 /* FilmDetailsViewModel.swift in Sources */,
 				D39FC4AD29C5DF5300AD0F3A /* FilmUploadModel.swift in Sources */,
 				D3A249E329A0F6F8005A2503 /* MoviesApp.swift in Sources */,
 				D396580729B3774A00956BD9 /* AuthView.swift in Sources */,
+				D3B5E12229F4B71F005B913C /* CommentFormView.swift in Sources */,
 				D39B10D929A164F8008E8F66 /* TrailerPlayer.swift in Sources */,
 				D3B5E11629F40F97005B913C /* RoleManager.swift in Sources */,
 				D3A60CFA29D22EC9003A1871 /* FilmDetailsModel.swift in Sources */,

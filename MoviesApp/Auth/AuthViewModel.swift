@@ -16,8 +16,13 @@ final class AuthViewModel: ObservableObject {
     }
     
     func authorizeUser() async {
-        let userId = await NetworkAPI.getUserId()
-        print(userId)
+        guard let userId = await NetworkAPI.getUserId() else {
+            assertionFailure("No user id")
+            return
+        }
+        
+        // TODO: Make a service to store userId
+        UserDefaults.standard.set(userId, forKey: "user_id")
     }
     
 }

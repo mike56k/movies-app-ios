@@ -12,6 +12,8 @@ struct FilmDetailsView: View {
                     mediaSectionView(model: model)
                     descriptionSectionView(model: model)
                     actorsSectionView(model: model)
+                    commentsSectionView(model: model)
+                    addCommentButton(model: model)
                 }
                 .listStyle(.sidebar)
             }
@@ -27,7 +29,15 @@ struct FilmDetailsView: View {
         }
     }
     
-    @StateObject private var viewModel = FilmDetailsViewModel()
+    @StateObject var viewModel = FilmDetailsViewModel()
+
+    private func addCommentButton(model: FilmDetailsModel) -> some View {
+        NavigationLink {
+            CommentFormView(viewModel: CommentFormViewModel(filmId: model.id))
+        } label: {
+            Text("Написать рецензию")
+        }
+    }
     
     private func factsSectionView(model: FilmDetailsModel) -> some View {
         Section {
@@ -91,20 +101,32 @@ struct FilmDetailsView: View {
         }
     }
     
+    @ViewBuilder
     private func commentsSectionView(model: FilmDetailsModel) -> some View {
-        Section {
-            Text("Коменты")
-//            ScrollView(.vertical) {
-//                VStack(spacing: 0) {
-//                    ForEach(model.filmPeople) { filmPerson in
-//                        ActorCardView(model: filmPerson.person)
-//                            .frame(maxWidth: 200)
-//                        Divider()
-//                    }
-//                }
-//            }
-        } header: {
-            Text("Рецензии")
+        if !model.comments.isEmpty {
+            Section {
+                LazyVStack(alignment: .leading, spacing: 8) {
+                    ForEach(model.comments, id: \.id) { comment in
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("user\(comment.userId)")
+                                .fontWeight(.thin)
+                                .font(.system(size: 14))
+                            
+                            Text(comment.text)
+                                .italic()
+                            
+                            Text("\(comment.stars) из 10")
+                                .fontWeight(.semibold)
+                        }
+                        
+                        if comment.id != model.comments.last?.id {
+                            Divider()
+                        }
+                    }
+                }
+            } header: {
+                Text("Рецензии")
+            }
         }
     }
     

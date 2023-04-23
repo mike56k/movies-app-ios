@@ -43,7 +43,7 @@ final class NetworkAPI {
     
     static func uploadFilmModel(film: FilmUploadModel) async {
         do {
-            let data = try await NetworkManager.shared.post(url: NetworkConstants.Route.Films.uploadModel, parameters: film)
+            let data = try await NetworkManager.shared.post(url: NetworkConstants.Route.Films.uploadModel, parameters: film, headers: headersWithToken)
             print(String(decoding: data, as: UTF8.self))
         } catch let error {
             print(error.localizedDescription)
@@ -63,13 +63,24 @@ final class NetworkAPI {
         }
     }
     
-    static func getUserId() async -> String {
+    static func getUserId() async -> Int? {
         do {
             let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Users.getId, parameters: nil, headers: headersWithToken)
-            return String(decoding: data, as: UTF8.self)
+            let stringData = String(decoding: data, as: UTF8.self)
+            return Int(stringData)
         } catch let error {
             print(error.localizedDescription)
-            return ""
+            return nil
+        }
+    }
+    
+    static func createComment(comment: CommentCreateModel) async -> Bool {
+        do {
+            try await NetworkManager.shared.post(url: NetworkConstants.Route.Comments.createComment, parameters: comment, headers: headersWithToken)
+            return true
+        } catch let error {
+            print(error.localizedDescription)
+            return false
         }
     }
     

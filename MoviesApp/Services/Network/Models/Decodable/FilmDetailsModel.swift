@@ -13,6 +13,7 @@ struct FilmDetailsModel: Decodable {
     let mediaFiles: [MediaFileModel]
     let genres: [GenreModel]
     let filmPeople: [FilmPersonModel]
+    let comments: [CommentModel]
 }
 
 struct FilmTypeModel: Decodable {
@@ -62,4 +63,12 @@ struct SpecialityModel: Decodable {
 struct GenderModel: Decodable {
     let id: Int
     let value: String
+}
+
+struct CommentModel: Decodable {
+    let id: Int
+    let userId: Int
+    let filmId: Int
+    let text: String
+    let stars: Int
 }
