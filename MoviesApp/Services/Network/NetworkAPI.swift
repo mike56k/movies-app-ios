@@ -84,6 +84,16 @@ final class NetworkAPI {
         }
     }
     
+    static func deleteComment(commentId: Int) async {
+        do {
+            let data = try await NetworkManager.shared.delete(url: NetworkConstants.Route.Comments.deleteComment, parameters: ["commentId":commentId], headers: headersWithToken)
+            print(String(decoding: data, as: UTF8.self))
+        } catch let error {
+            print(error.localizedDescription)
+            return
+        }
+    }
+    
     private static func parseData<T: Decodable>(data: Data) throws -> T {
         guard let decodedData = try? JSONDecoder().decode(T.self, from: data)
         else {

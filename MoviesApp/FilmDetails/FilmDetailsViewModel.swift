@@ -1,6 +1,11 @@
 import SwiftUI
 
 final class FilmDetailsViewModel: ObservableObject {
+    let filmId: Int
+    
+    init(filmId: Int) {
+        self.filmId = filmId
+    }
     
     @Published var filmModel: FilmDetailsModel? = nil
     
@@ -25,6 +30,11 @@ final class FilmDetailsViewModel: ObservableObject {
         }
         
         return nil
+    }
+    
+    func deleteComment(with id: Int) async {
+        await NetworkAPI.deleteComment(commentId: id)
+        await loadFilmDetails(filmId: filmId)
     }
     
 }

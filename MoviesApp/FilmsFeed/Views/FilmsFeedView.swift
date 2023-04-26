@@ -13,7 +13,7 @@ struct FilmsFeedView: View {
                     LazyVStack {
                         ForEach(viewModel.films, id: \.id) { film in
                             NavigationLink {
-                                FilmDetailsView(filmId: film.id)
+                                FilmDetailsView(viewModel: FilmDetailsViewModel(filmId: film.id))
                             } label: {
                                 FilmCardView(model: film)
                                     .padding(.horizontal, 10)

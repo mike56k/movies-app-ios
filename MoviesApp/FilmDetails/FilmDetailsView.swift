@@ -1,9 +1,7 @@
 import SwiftUI
 
 struct FilmDetailsView: View {
-    
-    let filmId: Int
-    
+        
     var body: some View {
         Group {
             if let model = viewModel.filmModel {
@@ -24,12 +22,12 @@ struct FilmDetailsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Task {
-                await viewModel.loadFilmDetails(filmId: filmId)
+                await viewModel.loadFilmDetails(filmId: viewModel.filmId)
             }
         }
     }
     
-    @StateObject var viewModel = FilmDetailsViewModel()
+    @StateObject var viewModel: FilmDetailsViewModel
 
     private func addCommentButton(model: FilmDetailsModel) -> some View {
         NavigationLink {
@@ -105,19 +103,9 @@ struct FilmDetailsView: View {
     private func commentsSectionView(model: FilmDetailsModel) -> some View {
         if !model.comments.isEmpty {
             Section {
-                LazyVStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 8) {
                     ForEach(model.comments, id: \.id) { comment in
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("user\(comment.userId)")
-                                .fontWeight(.thin)
-                                .font(.system(size: 14))
-                            
-                            Text(comment.text)
-                                .italic()
-                            
-                            Text("\(comment.stars) из 10")
-                                .fontWeight(.semibold)
-                        }
+                        commentSectionCell(comment: comment)
                         
                         if comment.id != model.comments.last?.id {
                             Divider()
@@ -126,6 +114,33 @@ struct FilmDetailsView: View {
                 }
             } header: {
                 Text("Рецензии")
+            }
+        }
+    }
+    
+    private func commentSectionCell(comment: CommentModel) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 12) {
+                Text("user\(comment.userId)")
+                    .fontWeight(.thin)
+                    .font(.system(size: 14))
+                
+                Text(comment.text)
+                    .italic()
+                
+                Text("\(comment.stars) из 10")
+                    .fontWeight(.semibold)
+            }
+            Spacer()
+            if comment.userId == UserDefaults.standard.integer(forKey: "user_id") {
+                Button {
+                    Task {
+                        await viewModel.deleteComment(with: comment.id)
+                    }
+                } label: {
+                    Image(systemName: "xmark")
+                }
+                .buttonStyle(BorderlessButtonStyle())
             }
         }
     }
