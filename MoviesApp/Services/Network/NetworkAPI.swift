@@ -52,7 +52,21 @@ final class NetworkAPI {
     
     static func uploadTrailer(trailerUrl: URL) async -> String {
         do {
+            guard let currentUser = GIDSignIn.sharedInstance.currentUser else {
+                return ""
+            }
+            Task {
+                try await currentUser.refreshTokensIfNeeded()
+            }
+            guard let idToken = currentUser.idToken else {
+                return ""
+            }
+            
             let data = try await NetworkManager.shared.upload(url: NetworkConstants.Route.Films.uploadTrailer,
+                                                              headers: [
+                                                                "Content-Type": "multipart/form-data",
+                                                                "Authorization": idToken.tokenString
+                                                              ],
                                                               multipartFormData: { (multipartFormData) in
                 multipartFormData.append(trailerUrl, withName: "file", fileName: "video.mp4", mimeType: "video/mp4")
             })
@@ -63,11 +77,11 @@ final class NetworkAPI {
         }
     }
     
-    static func getUserId() async -> Int? {
+    static func getUserInfo() async -> UserInfo? {
         do {
-            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Users.getId, parameters: nil, headers: headersWithToken)
-            let stringData = String(decoding: data, as: UTF8.self)
-            return Int(stringData)
+            let data = try await NetworkManager.shared.get(url: NetworkConstants.Route.Users.getUserInfo, parameters: nil, headers: headersWithToken)
+            let result: UserInfo = try self.parseData(data: data)
+            return result
         } catch let error {
             print(error.localizedDescription)
             return nil
@@ -76,7 +90,9 @@ final class NetworkAPI {
     
     static func createComment(comment: CommentCreateModel) async -> Bool {
         do {
-            try await NetworkManager.shared.post(url: NetworkConstants.Route.Comments.createComment, parameters: comment, headers: headersWithToken)
+            let data = try await NetworkManager.shared.post(url: NetworkConstants.Route.Comments.createComment, parameters: comment, headers: headersWithToken)
+            let stringData = String(decoding: data, as: UTF8.self)
+            print(stringData)
             return true
         } catch let error {
             print(error.localizedDescription)
@@ -116,6 +132,7 @@ final class NetworkAPI {
         guard let idToken = currentUser.idToken else {
             return nil
         }
+        print(idToken.tokenString)
         return [
             "Authorization": idToken.tokenString
         ]

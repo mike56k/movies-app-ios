@@ -27,14 +27,10 @@ enum NetworkConstants {
             static let getFilmTypes = base + "/FilmTypes"
         }
         
-        enum Actors {
-            static let getActors = baseUrl + "/GetActors"
-        }
-        
         enum Users {
             private static let base = baseUrl + "/Users"
 
-            static let getId = base + "/GetId"
+            static let getUserInfo = base + "/GetUserInfo"
         }
         
         enum Comments {

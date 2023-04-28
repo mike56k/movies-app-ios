@@ -35,8 +35,6 @@ struct FilmsFeedView: View {
                             }
                         }
                     }
-                    
-
                 }
                 .searchable(text: $debounceObject.text)
                 .onChange(of: debounceObject.debouncedText) { searchText in

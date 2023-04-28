@@ -14,41 +14,74 @@ import SwiftUI
 
 struct ActorCardView: View {
     
+    enum Style {
+        case small
+        case big
+    }
+    
     let model: PersonModel
+    let style: Style
     
     var body: some View {
-        HStack(spacing: 0) {
-            // TODO: Show actor photo
+        HStack(spacing: 10) {
+            Group {
+                if let photoUrl = model.mediaFiles.first {
+                    AsyncImage(url: getActorPhotoUrl(name: photoUrl.path)) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                }
+                else {
+                    Rectangle()
+                        .fill(Color.gray)
+                }
+            }
+            .frame(width: 80, height: 120)
+            .cornerRadius(10)
+            .clipped()
             
             VStack(alignment: .leading, spacing: 4) {
+                if style == .small {
+                    Spacer()
+                }
+                
                 Text(model.name)
                     .fontWeight(.semibold)
                 
-                if let dateBirth = getDate(date: model.dateBirth) {
-                    Text("Дата рождения: " + dateBirth)
-                        .fontWeight(.light)
-                        .font(.system(size: 14))
-                }
+                Text("Роль: " + model.specialities.map{ getSpeciality(speciality: $0) }.joined(separator: ", "))
+                    .fontWeight(.thin)
+                    .font(.system(size: 12))
                 
-                if let dateDeath = getDate(date: model.dateDeath) {
-                    Text("Дата смерти: " + dateDeath)
-                        .fontWeight(.light)
+                if style == .big {
+                    if let dateBirth = getDate(date: model.dateBirth) {
+                        Text("Дата рождения: " + dateBirth)
+                            .fontWeight(.light)
+                            .font(.system(size: 14))
+                    }
+                    
+                    if let dateDeath = getDate(date: model.dateDeath) {
+                        Text("Дата смерти: " + dateDeath)
+                            .fontWeight(.light)
+                            .font(.system(size: 14))
+                    }
+                    
+                    if let growth = getGrowth(growth: model.growth) {
+                        Text("Рост: " + growth)
+                            .fontWeight(.thin)
+                            .font(.system(size: 14))
+                    }
+                    
+                    Text("Место рождения: \(model.birthPlace)")
+                        .fontWeight(.thin)
                         .font(.system(size: 14))
-                }
-                
-                if let growth = getGrowth(growth: model.growth) {
-                    Text("Рост: " + growth)
+                    
+                    Text("Пол: " + getGender(genderModel: model.gender))
                         .fontWeight(.thin)
                         .font(.system(size: 14))
                 }
-                
-                Text("Место рождения: \(model.birthPlace)")
-                    .fontWeight(.thin)
-                    .font(.system(size: 14))
-                
-                Text("Пол: " + getGender(genderModel: model.gender))
-                    .fontWeight(.thin)
-                    .font(.system(size: 14))
                 
                 Spacer()
             }
@@ -69,6 +102,22 @@ struct ActorCardView: View {
             
         default:
             return "Неизв."
+        }
+    }
+    
+    private func getSpeciality(speciality: SpecialityModel) -> String {
+        switch speciality.name {
+        case "actor":
+            return "Актёр"
+            
+        case "director":
+            return "Режисер"
+            
+        case "producer":
+            return "Продюсер"
+        
+        default:
+            return "-"
         }
     }
     
@@ -104,5 +153,9 @@ struct ActorCardView: View {
         dateFormatter.dateFormat = "dd MMMM yyyy"
         return dateFormatter
     }()
+    
+    private func getActorPhotoUrl(name: String) -> URL? {
+        return URL(string: "http://95.163.211.116:8001/" + (name.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""))
+    }
     
 }

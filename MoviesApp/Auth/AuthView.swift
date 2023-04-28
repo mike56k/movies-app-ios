@@ -28,6 +28,20 @@ struct AuthView: View {
                     authForm
                         .transition(.scale)
                 }
+                
+                if viewModel.currentUserId != 0 && roleManager.currentRole != .guest {
+                    HStack(spacing: 0) {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Данные о пользователе")
+                                .font(.system(size: 22))
+                                .fontWeight(.semibold)
+                            
+                            Text("ID Пользователя: \(viewModel.currentUserId)")
+                        }
+                        Spacer()
+                    }
+
+                }
             }
             .padding()
         }

@@ -66,37 +66,49 @@ struct FilmDetailsView: View {
         }
     }
     
+    @ViewBuilder
     private func actorsSectionView(model: FilmDetailsModel) -> some View {
-        Section {
-            ScrollView(.horizontal) {
-                HStack(spacing: 0) {
-                    ForEach(model.filmPeople) { filmPerson in
-                        ActorCardView(model: filmPerson.person)
-                            .frame(maxWidth: 200)
-                        Divider()
+        if !model.filmPeople.isEmpty {
+            Section {
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 0) {
+                        ForEach(model.filmPeople[..<8]) { filmPerson in
+                            ActorCardView(model: filmPerson.person, style: .small)
+                                .frame(maxWidth: 240)
+                            Divider()
+                        }
                     }
                 }
-            }
-        } header: {
-            HStack {
-                Text("Актёры")
-                
-                Spacer()
-                
-                NavigationLink("Все") {
-                    ScrollView(.vertical) {
-                        VStack(spacing: 0) {
-                            ForEach(model.filmPeople) { filmPerson in
-                                ActorCardView(model: filmPerson.person)
-                                Divider()
+            } header: {
+                HStack {
+                    Text("Актёры")
+                    
+                    Spacer()
+                    
+                    NavigationLink("Все") {
+                        ScrollView(.vertical) {
+                            LazyVStack(spacing: 0) {
+                                ForEach(getActorSearchResults(model: model)) { filmPerson in
+                                    ActorCardView(model: filmPerson.person, style: .big)
+                                    Divider()
+                                }
                             }
+                            .padding()
                         }
-                        .padding()
+                        .searchable(text: $viewModel.actorSearchText)
+                        .navigationTitle("Актеры фильма: " + model.name)
                     }
-                    .navigationTitle("Актеры фильма: " + model.name)
                 }
             }
         }
+    }
+    
+    private func getActorSearchResults(model: FilmDetailsModel) -> [FilmPersonModel] {
+        guard !viewModel.actorSearchText.isEmpty else {
+            return model.filmPeople
+        }
+        
+        return model.filmPeople.filter({ $0.person.name.contains(viewModel.actorSearchText) })
     }
     
     @ViewBuilder
@@ -148,25 +160,29 @@ struct FilmDetailsView: View {
     @ViewBuilder
     private func mediaSectionView(model: FilmDetailsModel) -> some View {
         if !model.mediaFiles.isEmpty {
-            Section {
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(model.mediaFiles, id: \.id) { mediaFile in
-                            if mediaFile.type == 1 || mediaFile.type == 2 {
-                                AsyncImage(url: viewModel.getMediaUrl(name: mediaFile.path, type: mediaFile.type)) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(maxHeight: 300)
-                                } placeholder: {
-                                    ProgressView()
+            if !model.mediaFiles.filter({ media in
+                return media.type == 1 || media.type == 2
+            }).isEmpty {
+                Section {
+                    ScrollView(.horizontal) {
+                        HStack {
+                            ForEach(model.mediaFiles, id: \.id) { mediaFile in
+                                if mediaFile.type == 1 || mediaFile.type == 2 {
+                                    AsyncImage(url: viewModel.getMediaUrl(name: mediaFile.path, type: mediaFile.type)) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(maxHeight: 300)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
                                 }
                             }
                         }
                     }
+                } header: {
+                    Text("Кадры из фильма")
                 }
-            } header: {
-                Text("Обложка")
             }
             
             if let filmMediaModel = model.mediaFiles.first(where: { $0.type == 3 }){

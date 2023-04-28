@@ -6,7 +6,7 @@ struct FilmDetailsModel: Decodable {
     let engName: String
     let description: String
     let yearOfRelease: Int
-    let rating: Int
+    let rating: Double
     let length: Int
     let filmType: FilmTypeModel
     let countries: [CountryModel]

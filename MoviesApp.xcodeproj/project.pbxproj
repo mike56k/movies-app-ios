@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D31C184F29BCC0D60026CB53 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = D31C184E29BCC0D60026CB53 /* Alamofire */; };
+		D38D3F0A29FA7F0900D0FFF5 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38D3F0929FA7F0900D0FFF5 /* UserInfo.swift */; };
 		D396580129B371C300956BD9 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = D396580029B371C300956BD9 /* GoogleSignIn */; };
 		D396580329B371C300956BD9 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D396580229B371C300956BD9 /* GoogleSignInSwift */; };
 		D396580729B3774A00956BD9 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D396580629B3774A00956BD9 /* AuthView.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D38D3F0929FA7F0900D0FFF5 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D396580629B3774A00956BD9 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D39B10D029A1535A008E8F66 /* UIColor+RGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGB.swift"; sourceTree = "<group>"; };
 		D39B10D229A1539D008E8F66 /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			children = (
 				D39FC4AA29C5DF1D00AD0F3A /* FilmFeedModel.swift */,
 				D3A60CF929D22EC9003A1871 /* FilmDetailsModel.swift */,
+				D38D3F0929FA7F0900D0FFF5 /* UserInfo.swift */,
 			);
 			path = Decodable;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				D3B0AE8D29F1E01800DAC1E9 /* ActorCardView.swift in Sources */,
 				D39FC4AB29C5DF1D00AD0F3A /* FilmFeedModel.swift in Sources */,
 				D3B5E12429F4B7F7005B913C /* CommentFormViewModel.swift in Sources */,
+				D38D3F0A29FA7F0900D0FFF5 /* UserInfo.swift in Sources */,
 				D39FC4AF29C5E93E00AD0F3A /* UniversalTextField.swift in Sources */,
 				D39B10D329A1539D008E8F66 /* UIColor+Palette.swift in Sources */,
 				D3A60CF829D22CBB003A1871 /* FilmDetailsViewModel.swift in Sources */,

@@ -8,6 +8,7 @@ final class FilmDetailsViewModel: ObservableObject {
     }
     
     @Published var filmModel: FilmDetailsModel? = nil
+    @Published var actorSearchText: String = ""
     
     func loadFilmDetails(filmId: Int) async {
         let result = await NetworkAPI.getFilmDetails(by: filmId)

@@ -46,14 +46,12 @@ actor NetworkManager: GlobalActor {
         }
     }
     
-    func upload(url: String, multipartFormData: @escaping (MultipartFormData) -> Void) async throws -> Data {
+    func upload(url: String, headers: HTTPHeaders?, multipartFormData: @escaping (MultipartFormData) -> Void) async throws -> Data {
         return try await withCheckedThrowingContinuation { continuation in
             session.upload(multipartFormData: multipartFormData,
                            to: url,
                            method: .post,
-                           headers: [
-                                "Content-Type": "multipart/form-data"
-                           ])
+                           headers: headers)
             .validate()
             .responseData { response in
                 switch(response.result) {
